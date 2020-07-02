@@ -1,4 +1,11 @@
-
+<?php
+   $conn = new mysqli('localhost', 'root', '','id1265441_facultad');
+//id12656441_admin->User, '12345'->password   
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+?>
 <!DOCTYPE>
 <html>
  <head>

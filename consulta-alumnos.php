@@ -1,75 +1,142 @@
 <?php
-   $conn = new mysqli('localhost', 'id12656441_admin', '12345','id12656441_facultad');
+   $conn = new mysqli('localhost', 'root', '','id1265441_facultad');
+//id12656441_admin->User, '12345'->password   
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 ?>
-<!DOCTYPE>
-<html>
- <head>
-     <title>PORTAL FACULTAD</title>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/proxy/7yZSy2KrXazTYu1WeAF9ayOVsl7LE7u-rqgJM1iYb8m96IHTyJzvRJlciUyv07m9iSJrpC-6nWdOj5I5uFncb-M6nzmHxHwkqfEv-KsgqO3KLFce4GmSiCUj" sizes="16x16">
-     <link rel="stylesheet" type="text/css" href="CSS/siteStyle.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PORTAL FACULTAD</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="https://cdn.pixabay.com/photo/2018/02/17/00/06/school-3158985_960_720.png" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/siteStyle.css">
+    <link rel="stylesheet" type="text/css" href="CSS/tablas.css">
     <script type="text/javascript" src="JS/sideNavDD.js"></script>
- </head>
- <body onload="dropdownFu()">
-  <div class="sidenav">
-            <a href="index.html">Inicio</a>
-            <button class="dropdown-btn active">Alumnos 
-                <i class="fa fa-caret-down"></i>
+  </head>
+  <body onload="dropdownFu()">
+    <div class="container-fluid">
+      <div class="row content">
+        <div class="col-sm-2 sidenav">
+          <label id="userL">PORTAL FACULTAD</label>
+            <div class="active"><a href="#">Inicio</a></div>
+            <button class="dropdown-btn">Alumnos 
+              <i><span class="glyphicon glyphicon-chevron-down"></span></i>
             </button>
             <div class="dropdown-container">
-                <a href="#">Registro Alumnos</a>
-                <div class="active"><a href="#">Consultas Alumnos</a></div>
+              <a href="registro-alumnos.php">Registro Alumnos</a>
+              <div class="active"><a href="#">Consultas Alumnos</a></div>
             </div>
             <button class="dropdown-btn">Programas Educativos 
-                <i class="fa fa-caret-down"></i>
+              <i><span class="glyphicon glyphicon-chevron-down"></span></i>
             </button>
             <div class="dropdown-container">
-                <a href="registro-PE.php">Registro PE</a>
-                <a href="#">Consultas PE</a>
+              <a href="registro-PE.php">Registro PE</a>
+              <a href="#">Consultas PE</a>
             </div>
             <button class="dropdown-btn">Profesores 
-                <i class="fa fa-caret-down"></i>
+              <i><span class="glyphicon glyphicon-chevron-down"></span></i>
             </button>
             <div class="dropdown-container">
-                <a href="registro-profesores.html">Registro Profesores</a>
-                <a href="#">Consultas Profesores</a>
+              <a href="registro-profesores.php">Registro Profesores</a>
+              <a href="#">Consultas Profesores</a>
             </div>
             <button class="dropdown-btn">Experiencias Educativas 
-                <i class="fa fa-caret-down"></i>
+              <i><span class="glyphicon glyphicon-chevron-down"></span></i>
             </button>
             <div class="dropdown-container">
-                <a href="registro-EE.php">Registro EE</a>
-                <a href="#">Horario de EE</a>
+              <a href="registro-EE.php">Registro EE</a>
+              <a href="registro-horarios.php">Horario de EE</a>
             </div>
         </div>
-        <div class="main">
-            <center>
-                <h1> PORTAL FACULTAD</h1>
-            </center>
-            <div id="contenido">
+        <div class="col-sm-10">
+          <div class="container-fluid">
+            <div id="tabla-alumnos">
               <h1 align="center">ALUMNOS FIEE</h1>
               <?php
-$sql = "SELECT T_Alumnos.Matricula,T_Alumnos.APaterno,T_Alumnos.AMaterno,T_Alumnos.Nombre,T_Programa.pnombre FROM T_Alumnos INNER JOIN T_Programa ON T_Alumnos.clv_programa=T_Programa.clvprograma;";
-$result = $conn->query($sql);
+                $sql = "SELECT T_Alumnos.Matricula,T_Alumnos.APaterno,T_Alumnos.AMaterno,T_Alumnos.Nombre,T_Alumnos.CreditosObtenidos,T_Programa.pnombre FROM T_Alumnos INNER JOIN T_Programa ON T_Alumnos.clv_programa=T_Programa.clvprograma;";
+                $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-  echo "<table><tr><th>Matricula</th><th>Nombre Completo</th><th>PE</th></tr>";
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "<tr><td>" . $row["Matricula"]."</td><td>".$row["Nombre"]. " " . $row["APaterno"]." ".$row["AMaterno"]."</td><td>".$row["pnombre"]. "</td></tr>";
-  }
-  echo "</table>";
-} else {
-  echo "0 results";
-}
-$conn->close();
+                if ($result->num_rows > 0) {
+                  echo "<table class='table table-hover table-condensed table-bordered'><tr><th>Matricula</th><th>Nombre Completo</th><th>PE</th><th>Creditos Obtenidos</th><th>Editar</th><th>Eliminar</th></tr>";
+                  // output data of each row
+                  while($row = $result->fetch_assoc()) {
+                    echo "<tr><td>" . $row["Matricula"]."</td><td>".$row["Nombre"]. " " . $row["APaterno"]." ".$row["AMaterno"]."</td><td>".$row["pnombre"]. "</td><td>".$row["CreditosObtenidos"]."<td><button class='btn btn-warning glyphicon glyphicon-pencil' data-toggle='modal' data-target='#modalEdicion'></button></td><td><button class='btn btn-danger  glyphicon glyphicon-remove'></button></td></tr>";
+                  }
+                  echo "</table>";
+                } else {
+                  echo "0 results";
+                }
+                $conn->close();
               ?>
+            </div>
+            <caption>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistro">Agregar alumno
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </caption>
+            <!-- Modal para agregar datos -->
+            <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Nuevo Alumno</h4>
+                  </div>
+                  <div class="modal-body">
+                    <label>Nombre</label>
+                    <input type=text name="nombre" placeholder="Nombres" class="form-control input-sm"><br>
+                    <label>Apellido Paterno:</label>
+                    <input type=text name="paterno" placeholder="Apellido Paterno" class="form-control input-sm"><br>
+                    <label>Apellido Materno:</label>
+                    <input type=text name="materno" placeholder="Apellido Materno" class="form-control input-sm"><br>
+                    <label> Seleccionar Programa Educativo:</label>
+                        <select name="pe" class="form-control input-sm">
+                          <option value="0">Seleccione</option>
+                            <?php
+                              $query = $mysqli -> query ("SELECT * FROM T_Programa");
+                              while ($valores = mysqli_fetch_array($query)) {
+                                echo '<option value="'.$valores[clvprograma].'">'.$valores[pnombre].'</option>';
+                              }
+                            ?>
+                        </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal para edición -->
+            <div class="modal fade" id="modalEdicion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Editar datos de un alumno</h4>
+                  </div>
+                  <div class="modal-body">  ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary btn-warning">Editar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <footer class="container-fluid">
+      <p>Footer Text</p>
+    </footer>
   </body>
 </html>

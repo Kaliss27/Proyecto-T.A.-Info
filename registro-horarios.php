@@ -1,6 +1,10 @@
 <?php
-// Realizamos la conexión con el servidor
-  $mysqli = new mysqli('localhost', 'id12656441_admin', '12345', 'id12656441_facultad');
+   $conn = new mysqli('localhost', 'root', '','id1265441_facultad');
+//id12656441_admin->User, '12345'->password   
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 ?>
 <!DOCTYPE>
 <html>
